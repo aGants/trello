@@ -20,34 +20,33 @@ export default {
     return {
       boardList: [
         {
-          id: 1,
+          id: '1',
           name: 'to do'
         }, 
         {
-          id: 2,
+          id: '2',
           name: 'in progress'        
         },
         {
-          id: 3,
+          id: '3',
           name: 'done'        
         }
       ]
+    }
+  }, 
+  methods: {
+    addBoard () {
+      this.boardList.push({name: this.newBoardname})
     }
   }
 }
 </script>
 
 <style lang="scss">
-$screen-md: 768px;
-
-$bgcolor: #fff;
-$board: #fbfbfb;
-$bborder: 1px solid #ddd;
-
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  margin: 20px 15px 0;
   color: #2c3e50;
-  margin: 20px 5px 0;
+  font-family: $font;
 }
 
 .list {
@@ -60,14 +59,4 @@ $bborder: 1px solid #ddd;
   }
 }
 
-.board {
-  width: 200px;
-  padding: 0 25px;
-  background-color: $board;
-  border: $bborder;
-  @media (max-width: $screen-md) {
-    width: 80%;
-  }
-
-}
 </style>
