@@ -4,7 +4,7 @@
       <TasksList 
         class="board-list"
         :boardId="boardId"
-        :tasks="tasksList"
+        :tasks="tasks"
       />
   </div>
 </template>
@@ -19,24 +19,23 @@ export default {
   },
   props: {
     boardId: String,
-    name: String
+    name: String,
+    tasks: Array
   },
   data() {
     return {
-      tasksList: [
-        {id: '1', title: 'Задание1', desc: 'Описание'},
-        {id: '2', title: 'Задание2', desc: 'Описание'},
-        {id: '3', title: 'Задание3', desc: 'Описание'}
-      ]
+
     }
   }
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .board {
+  display: flex;
+  flex-direction: column;
   width: 200px;
-  padding: 5px 25px 20px;
+  padding: 25px 20px;
   background-color: $board;
   border: $bborder;
   border-radius: 5px;
@@ -46,6 +45,7 @@ export default {
   &__title {
     font: bold 20px  $font;
     text-transform: uppercase;
+    margin: 5px 0;
   }
 }
 </style>

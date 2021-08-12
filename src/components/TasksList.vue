@@ -1,17 +1,20 @@
 <template>
-  <ul>
+  <ul @drop="onDrop($event, 1)" >
     <li 
       v-for="task in tasks" 
       :key="task.id"
       class="board-list-task"
+      @dragstart="onDragStart($event, 1)"
+       draggable="true"
     >
-      <span class="board-list-task__title">{{ task.title }}</span>
+      <span class="board-list-task__title">{{ task.name }}</span>
       <p class="board-list-task__desc">{{ task.desc }}</p> 
     </li>
   </ul>
 </template>
 
 <script>
+// import { ref } from 'vue'
 
 export default {
   name: 'TasksList',
@@ -19,6 +22,16 @@ export default {
     boardId: String,
     tasks: Array
   },
+  // setup() {
+  //   function onDragStart(e, item) {}
+  //   function onDrop(e, boardId) {}
+
+  //   return {
+  //     items, categories,
+  //     onDragStart,
+  //     onDrop
+  //   }
+  // },
   data() {
     return {
       title: ''
@@ -35,7 +48,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .board-list {
   list-style-type: none;
   margin: 0;
@@ -47,6 +60,11 @@ export default {
     border: $tborder;
     border-radius: 5px;
     box-shadow: 0 5px 5px 0 rgb(0 0 0 / 5%);
+    cursor: pointer;
+    transition-duration: 0.6s;
+    &:hover {
+      box-shadow: 0 5px 5px 0 rgb(0 0 0 / 15%);
+    }
     &__title {
       font: bolder 16px $font;
     }
