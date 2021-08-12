@@ -1,8 +1,8 @@
 <template>
-  <h1>Доски</h1>
+  <h1>Trello</h1>
   <div class="list">
     <Board 
-      v-for="board in boardList" :key="board.id" 
+      v-for="board in boardList" :key="board.name" 
       class="board" :name="board.name" :tasks="tasksList"
     />
     <div class="board">
@@ -33,18 +33,9 @@ export default {
       addingTask: false,
       newName: '',
       boardList: [
-        {
-          id: '1',
-          name: 'to do'
-        }, 
-        {
-          id: '2',
-          name: 'in progress'        
-        },
-        {
-          id: '3',
-          name: 'done'        
-        }
+        { name: 'to do' }, 
+        { name: 'in progress' },
+        { name: 'done' }
       ],
       tasksList: [
         {id: '1', name: 'Задание1', desc: 'Описание'},
@@ -57,9 +48,8 @@ export default {
     closePopupModal () {
       this.modal = false;
     },
-    addBoard (data) {
-      console.log(data)
-      this.boardList.push({name: data})
+    addBoard (name) {
+      this.boardList.push({name: name})
       this.modal = false;
     }
   }
@@ -68,15 +58,14 @@ export default {
 
 <style lang="scss">
 #app {
-  margin: 20px 15px 0;
+  margin: 50px 15px 0;
   color: #2c3e50;
   font-family: $font;
 }
 
 .list {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  align-items: flex-start;
   gap: 20px;
   @media (max-width: $screen-md) {
     flex-direction: column;

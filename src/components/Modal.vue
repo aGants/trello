@@ -3,6 +3,7 @@
     <div class="modal-content">
       <label>Название
         <input type="text" class="modal-content__input"
+          v-bind:class="{error: isError}"
           v-model="newName" 
         >
       </label>
@@ -31,18 +32,20 @@ export default {
     return {
       newName: '',
       desc: '',
-      empty: false
+      isError: false,
     }
   },
   methods: {
     closeModal() {
+      this.isError = false;
       this.$emit('closeModal')
     },
     addingBoard() {
       if (this.newName != '') {
         this.$emit('addingBoard', this.newName)
+        this.isError = false;
       } else {
-        this.empty = true;
+        this.isError = true;
       }
     }
   }
@@ -80,6 +83,8 @@ export default {
     &__input {
       width: 90%;
       padding: 5px 10px;
+      outline: none;
+      outline-offset: 0;
     }
     &-block {
       display: flex;
@@ -107,5 +112,8 @@ export default {
       }
     }
   }
+}
+.error {
+  border-color:#ff493f;
 }
 </style>
