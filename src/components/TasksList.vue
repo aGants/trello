@@ -8,13 +8,25 @@
       draggable="true"
     >
       <div class="board-list-task__title">
-        <span>{{ task.name }}</span>
-        <div class="option">
-          <input type="button" value="..." class="option-btn edit" >
+        <span v-show="task.edit === false">{{ task.name }}</span>
+        <input type="text" class="board-list-task__input"
+        v-show="task.edit === true" 
+        @keydown.enter="editTask($taskIndex); task.edit=false" 
+        @keydown.esc="task.edit=false; count = 0"
+        v-model="editTaskName"
+        >
+        <div class="option" v-show="task.edit === false">
+          <input type="button" value="..." class="option-btn edit" @click="{task.edit=true; editTaskName = task.name}">
           <input type="button" value="x" class="option-btn close" @click="deleteTask($taskIndex)">
         </div>
       </div>
-      <p class="board-list-task__desc">{{ task.desc }}</p> 
+      <p v-show="task.edit != true" class="board-list-task__desc">{{ task.desc }}</p> 
+      <input type="text" class="board-list-task__input"
+        v-show="task.edit" 
+        @keydown.enter="editTask($taskIndex); task.edit=false" 
+        @keydown.esc="task.edit=false"
+        v-model="editTaskDesc"
+      >
     </li>
   </ul>
   <input type="button"
@@ -41,6 +53,8 @@ export default {
   data () {
     return {
       modal: false,
+      editTaskName: '',
+      editTaskDesc: ''
     }
   },
   methods: {
@@ -52,6 +66,16 @@ export default {
     deleteTask (id) {
       let tasks = this.tasks;
       this.$store.commit('DELETE_TASK', { tasks, id })
+    },
+    editTask(id) {
+      let tasks = this.tasks;
+      this.$store.commit('EDIT_TASK', {
+        tasks,
+        id: id,
+        name: this.editTaskName,
+        desc: this.editTaskDesc
+      })
+      this.editTaskName = this.editTaskDesc = '';
     },
     closePopupModal () {
       this.modal = false;
@@ -91,6 +115,10 @@ export default {
     }
     &__desc {
       font-size: 13px;
+    }
+    &__input {
+      padding: 5px;
+      margin-bottom: 5px;
     }
   }
 }

@@ -29,10 +29,16 @@ export default createStore({
         id: uuid(),
         name,
         desc,
+        edit: false
       })
     },
     DELETE_TASK (state, { tasks, id }) {
       tasks.splice(id, 1)
+    },
+    EDIT_TASK (state, {tasks, id, name, desc}) {
+      tasks[id].name = name;
+      tasks[id].desc = desc;
+      tasks[id].edit = false;
     },
     MOVE_TASK (state, { fromTasks, toTasks, taskIndex }) {
       const taskToDrag = fromTasks.splice(taskIndex, 1)[0]
