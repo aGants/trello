@@ -104,7 +104,7 @@ export default {
           box-shadow: 0px 0px 10px 4px rgb(0 0 0 / 50%);
         }
         &.save {
-          background: #42b983;
+          background: $save;
         }
         &.cancel {
           background: $cancel;

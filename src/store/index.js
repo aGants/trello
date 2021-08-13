@@ -13,11 +13,16 @@ export default createStore({
     ADD_BOARD (state, { name }) {
       state.board.list.push({
         name,
-        tasks: []
+        tasks: [],
+        edit: false
       })
     },
     DELETE_BOARD (state, { id }) {
       state.board.list.splice(id, 1)
+    },
+    EDIT_BOARD (state, { id, name}) {
+      state.board.list[id].name = name
+      state.board.list[id].edit = false
     },
     ADD_TASK (state, { tasks, name, desc }) {
       tasks.push({

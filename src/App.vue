@@ -1,14 +1,25 @@
 <template>
   <h1>Trello</h1>
   <div class="list">
-    <div class="board"
+    <div class="board" :class="{editboard: board.edit}"
       v-for="(board, $boardIndex) of board.list" :key="$boardIndex" 
       @drop="moveTask($event, board.tasks)" @dragover.prevent @dragenter.prevent
     >
-    <p class="board__title">
-      <span>{{ board.name }}</span>
-      <input type="button" value="x" class="close" @click="deleteBoard($boardIndex)">
-      </p>
+    <div class="board-title">
+      <div v-show="board.edit != true" class="board-title__text">
+        <span>{{ board.name }}</span>
+      </div>
+      <input type="text" class="board-title__input"
+        v-show="board.edit" 
+        @keydown.enter="editBoard($boardIndex); board.edit=false" 
+        @keydown.esc="board.edit=false; count = 0"
+        v-model="editBoardName"
+      >
+      <div class="option" v-show="count === 0">
+        <input type="button" value="..." class="option-btn edit" @click="{board.edit=true; count+=1; editBoardName = board.name}">
+        <input type="button" value="x" class="option-btn close" @click="deleteBoard($boardIndex)" >
+      </div>
+    </div>
       <tasks-list 
         :tasks="board.tasks"
         :boardId="$boardIndex"
@@ -38,7 +49,9 @@ export default {
   data() {
     return {
       modal: false,
-      newBoardName: ''
+      newBoardName: '',
+      editBoardName: '',
+      count: 0
     }
   }, 
   computed: mapState(['board']),
@@ -50,10 +63,17 @@ export default {
       this.newBoardName = ''
     },
     deleteBoard(id){
-      console.log(id)
       this.$store.commit('DELETE_BOARD', {
         id: id
       })
+    },
+    editBoard(id) {
+      this.$store.commit('EDIT_BOARD', {
+        id: id,
+        name: this.editBoardName
+      })
+      this.editBoardName = '';
+      this.count = 0;
     },
     onDragStart(data){
       data.e.dataTransfer.setData('task-index', data.taskIndex)
@@ -93,11 +113,13 @@ export default {
 .board {
   display: flex;
   flex-direction: column;
-  width: 200px;
+  width: 230px;
   padding: 25px 20px;
   background-color: $board;
   border: $bborder;
   border-radius: 5px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
   @media (max-width: $screen-md) {
     width: 80%;
   }
@@ -106,24 +128,49 @@ export default {
       padding: 5px;
     }
   }
-  &__title {
+  &-title {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     font: bold 20px  $font;
     text-transform: uppercase;
     margin: 5px 0;
+    white-space: normal;
+    word-wrap: break-word;
+    &__text {
+      min-width: 0;
+      width: 180px;
+    }
+    &__input {
+      width: 100%;
+      padding: 5px;
+    }
   }
 }
 
-.close {
-  font-weight: bold;
-  cursor: pointer;
-  border: none;
-  border-radius: 2px;
-  transition: 1s;
-  &:hover {
-    background: $cancel;
+.option {
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  &-btn {
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    border-radius: 2px;
+    transition: 1s;
+}
+
+}
+.close:hover {
+  background: $cancel;
+}
+.edit:hover {
+  background: $save;
   }
+
+.editboard {
+  border-color: $save;
 }
 
 </style>

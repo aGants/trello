@@ -7,10 +7,13 @@
       @dragstart="onDragStart($event, $taskIndex, boardId)"
       draggable="true"
     >
-      <p class="board-list-task__title">
+      <div class="board-list-task__title">
         <span>{{ task.name }}</span>
-        <input type="button" value="x" class="close" @click="deleteTask($taskIndex)">
-      </p>
+        <div class="option">
+          <input type="button" value="..." class="option-btn edit" >
+          <input type="button" value="x" class="option-btn close" @click="deleteTask($taskIndex)">
+        </div>
+      </div>
       <p class="board-list-task__desc">{{ task.desc }}</p> 
     </li>
   </ul>

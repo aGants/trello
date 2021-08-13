@@ -5,7 +5,7 @@ export default {
   list: [
     { 
       name: 'to do', 
-      id: uuid(),
+      edit: false,
       tasks: [
         { id: uuid(), name: 'Задача 1', desc: 'Описание' }, 
         { id: uuid(), name: 'Задача 2', desc: 'Описание' }
@@ -13,14 +13,14 @@ export default {
     }, 
     { 
       name: 'in progress',
-      id: uuid(),
+      edit: false,
       tasks: [
         { id: uuid(), name: 'Задача 3', desc: 'Описание' }
       ] 
     },
     { 
       name: 'done', 
-      id: uuid(),
+      edit: false,
       tasks: [] 
     }
   ]
