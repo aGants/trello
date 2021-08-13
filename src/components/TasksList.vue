@@ -1,11 +1,11 @@
 <template>
-  <ul @drop="onDrop($event, 1)" class="board-list">
+  <ul class="board-list">
     <li 
       v-for="task in tasks" 
       :key="task.id"
       class="board-list-task"
-      @dragstart="onDragStart($event, 1)"
-       draggable="true"
+      @dragstart="onDragStart($event, task.id, boardId)"
+      draggable="true"
     >
       <span class="board-list-task__title">{{ task.name }}</span>
       <p class="board-list-task__desc">{{ task.desc }}</p> 
@@ -16,35 +16,38 @@
     value="+ добавить задание"
     @click="modal = !modal"
   >
-  <Modal v-if="modal" @closeModal="closePopupModal" 
+  <modal-window v-if="modal" @closeModal="closePopupModal" 
     @addingTask="addTask"
   />
 </template>
 
 <script>
-import Modal from './Modal.vue'
+import ModalWindow from './ModalWindow.vue'
 
 export default {
-  name: 'TasksList',
-  components: { Modal },
+  name: 'tasks-list',
+  components: { ModalWindow },
   props: {
-    boardId: String,
+    boardId: Number,
     tasks: Array
   },
+  emits: ['onDragStart'],
   data () {
     return {
       modal: false,
     }
   },
   methods: {
-    addTask(data) {
-      console.log(data)
+    addTask (data) {
       let tasks = this.tasks;
       this.$store.commit('ADD_TASK', { tasks, name: data.name, desc: data.desc })
       this.modal = false;
     },
     closePopupModal () {
       this.modal = false;
+    },
+    onDragStart(e, taskIndex, fromBoardIndex){
+      this.$emit('onDragStart', {e, taskIndex, fromBoardIndex})
     },
   }
 }

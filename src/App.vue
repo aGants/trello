@@ -1,12 +1,17 @@
 <template>
   <h1>Trello</h1>
   <div class="list">
-    <Board 
-      v-for="board in board.list" :key="board.id" 
-      class="board" :board="board" 
+    <div class="board"
+      v-for="(board, $boardIndex) of board.list" :key="$boardIndex" 
+      @drop="moveTask($event, board.tasks)" @dragover.prevent @dragenter.prevent
     >
-    text
-    </Board>
+    <p class="board__title">{{ board.name }}</p>
+      <tasks-list 
+        :tasks="board.tasks"
+        :boardId="$boardIndex"
+        @onDragStart="onDragStart"
+      />
+  </div>
     <div class="board">
       <input type="text" class="board-list__input" 
         placeholder="+ добавить доску"
@@ -18,12 +23,12 @@
 
 <script>
 import { mapState } from 'vuex'
-import Board from './components/Board.vue'
+import TasksList from './components/TasksList.vue'
 
 export default {
   name: 'App',
   components: {
-    Board
+    TasksList
   },
   props: {},
   data() {
@@ -34,9 +39,20 @@ export default {
   }, 
   computed: mapState(['board']),
   methods: {
-    addBoard (name) {
-      console.log(name)
-      // this.boardList.push({name: name, tasks: []})
+    onDragStart(data){
+      data.e.dataTransfer.setData('task-index', data.taskIndex)
+      data.e.dataTransfer.setData('from-board-index', data.fromBoardIndex)
+    },
+    moveTask(e, toTasks){
+      const fromBoardIndex = e.dataTransfer.getData('from-board-index')
+      const fromTasks = this.board.list[fromBoardIndex].tasks 
+      const taskIndex = e.dataTransfer.getData('task-index')
+
+      this.$store.commit('MOVE_TASK', {
+        fromTasks,
+        toTasks,
+        taskIndex
+      })
     }
   }
 }
@@ -58,9 +74,27 @@ export default {
   }
 }
 
-.board-list {
-  &__input {
-    padding: 5px;
+
+.board {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  padding: 25px 20px;
+  background-color: $board;
+  border: $bborder;
+  border-radius: 5px;
+  @media (max-width: $screen-md) {
+    width: 80%;
+  }
+  &-list {
+    &__input {
+      padding: 5px;
+    }
+  }
+  &__title {
+    font: bold 20px  $font;
+    text-transform: uppercase;
+    margin: 5px 0;
   }
 }
 

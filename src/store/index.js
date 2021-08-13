@@ -16,6 +16,10 @@ export default createStore({
         name,
         desc,
       })
+    },
+    MOVE_TASK (state, { fromTasks, toTasks, taskIndex }) {
+      const taskToDrag = fromTasks.splice(taskIndex, 1)[0]
+      toTasks.push(taskToDrag)
     }
   },
   actions: {

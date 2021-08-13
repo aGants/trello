@@ -27,7 +27,7 @@
 
 <script>
 export default {
-  name: 'Modal',
+  name: 'modal-window',
   data () {
     return {
       name: '',
