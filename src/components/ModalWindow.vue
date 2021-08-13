@@ -4,12 +4,16 @@
       <label>Название
         <input type="text" class="modal-content__input"
           v-bind:class="{error: isError}"
-          v-model="name" 
+          v-model="name"
+          @keydown.enter="addingTask"
+          @keydown.esc="closeModal"
         >
       </label>
       <label>Описание
         <input type="text" class="modal-content__input"
           v-model="desc" 
+          @keydown.enter="addingTask"
+          @keydown.esc="closeModal"
         >
       </label>
 
