@@ -1,10 +1,9 @@
 <template>
   <div>
-    <p class="board__title">{{ name }}</p>
+    <p class="board__title">{{ board.name }}</p>
       <TasksList 
         class="board-list"
-        :boardId="boardId"
-        :tasks="tasks"
+        :tasks="board.tasks"
       />
   </div>
 </template>
@@ -18,13 +17,11 @@ export default {
     TasksList
   },
   props: {
-    boardId: String,
-    name: String,
-    tasks: Array
+    board: {},
   },
   data() {
     return {
-
+      
     }
   }
 }

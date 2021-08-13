@@ -2,8 +2,8 @@
   <h1>Trello</h1>
   <div class="list">
     <Board 
-      v-for="board in boardList" :key="board.name" 
-      class="board" :name="board.name" :tasks="tasksList"
+      v-for="board in board.list" :key="board.name" 
+      class="board" :board="board" 
     />
     <div class="board">
       <input type="button" class="board-list-task" 
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Board from './components/Board.vue'
 import Modal from './components/Modal.vue'
 
@@ -31,25 +32,16 @@ export default {
     return {
       modal: false,
       addingTask: false,
-      newName: '',
-      boardList: [
-        { name: 'to do' }, 
-        { name: 'in progress' },
-        { name: 'done' }
-      ],
-      tasksList: [
-        {id: '1', name: 'Задание1', desc: 'Описание'},
-        {id: '2', name: 'Задание2', desc: 'Описание'},
-        {id: '3', name: 'Задание3', desc: 'Описание'}
-      ]
+      newName: ''
     }
   }, 
+  computed: mapState(['board']),
   methods: {
     closePopupModal () {
       this.modal = false;
     },
     addBoard (name) {
-      this.boardList.push({name: name})
+      this.boardList.push({name: name, tasks: []})
       this.modal = false;
     }
   }
