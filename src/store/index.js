@@ -26,6 +26,9 @@ export default createStore({
         desc,
       })
     },
+    DELETE_TASK (state, { tasks, id }) {
+      tasks.splice(id, 1)
+    },
     MOVE_TASK (state, { fromTasks, toTasks, taskIndex }) {
       const taskToDrag = fromTasks.splice(taskIndex, 1)[0]
       toTasks.push(taskToDrag)

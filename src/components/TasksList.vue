@@ -1,13 +1,16 @@
 <template>
   <ul class="board-list">
     <li 
-      v-for="task in tasks" 
-      :key="task.id"
+      v-for="(task, $taskIndex) of tasks" 
+      :key="$taskIndex"
       class="board-list-task"
-      @dragstart="onDragStart($event, task.id, boardId)"
+      @dragstart="onDragStart($event, $taskIndex, boardId)"
       draggable="true"
     >
-      <span class="board-list-task__title">{{ task.name }}</span>
+      <p class="board-list-task__title">
+        <span>{{ task.name }}</span>
+        <input type="button" value="x" class="close" @click="deleteTask($taskIndex)">
+      </p>
       <p class="board-list-task__desc">{{ task.desc }}</p> 
     </li>
   </ul>
@@ -43,6 +46,10 @@ export default {
       this.$store.commit('ADD_TASK', { tasks, name: data.name, desc: data.desc })
       this.modal = false;
     },
+    deleteTask (id) {
+      let tasks = this.tasks;
+      this.$store.commit('DELETE_TASK', { tasks, id })
+    },
     closePopupModal () {
       this.modal = false;
     },
@@ -74,7 +81,10 @@ export default {
       box-shadow: 0 5px 5px 0 rgb(0 0 0 / 15%);
     }
     &__title {
+      display: flex;
+      justify-content: space-between;
       font: bolder 16px $font;
+      
     }
     &__desc {
       font-size: 13px;
