@@ -16,6 +16,9 @@ export default createStore({
         tasks: []
       })
     },
+    DELETE_BOARD (state, { id }) {
+      state.board.list.splice(id, 1)
+    },
     ADD_TASK (state, { tasks, name, desc }) {
       tasks.push({
         id: uuid(),

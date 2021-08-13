@@ -5,7 +5,10 @@
       v-for="(board, $boardIndex) of board.list" :key="$boardIndex" 
       @drop="moveTask($event, board.tasks)" @dragover.prevent @dragenter.prevent
     >
-    <p class="board__title">{{ board.name }}</p>
+    <p class="board__title">
+      <span>{{ board.name }}</span>
+      <input type="button" value="x" class="close" @click="deleteBoard($boardIndex)">
+      </p>
       <tasks-list 
         :tasks="board.tasks"
         :boardId="$boardIndex"
@@ -46,6 +49,12 @@ export default {
       })
       this.newBoardName = ''
     },
+    deleteBoard(id){
+      console.log(id)
+      this.$store.commit('DELETE_BOARD', {
+        id: id
+      })
+    },
     onDragStart(data){
       data.e.dataTransfer.setData('task-index', data.taskIndex)
       data.e.dataTransfer.setData('from-board-index', data.fromBoardIndex)
@@ -81,7 +90,6 @@ export default {
   }
 }
 
-
 .board {
   display: flex;
   flex-direction: column;
@@ -99,9 +107,22 @@ export default {
     }
   }
   &__title {
+    display: flex;
+    justify-content: space-between;
     font: bold 20px  $font;
     text-transform: uppercase;
     margin: 5px 0;
+  }
+}
+
+.close {
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  border-radius: 2px;
+  transition: 1s;
+  &:hover {
+    background: $cancel;
   }
 }
 

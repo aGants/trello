@@ -107,13 +107,13 @@ export default {
           background: #42b983;
         }
         &.cancel {
-          background: #ff493f;
+          background: $cancel;
         }
       }
     }
   }
 }
 .error {
-  border-color:#ff493f;
+  border-color:$cancel;
 }
 </style>
