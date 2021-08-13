@@ -4,10 +4,10 @@
       <label>Название
         <input type="text" class="modal-content__input"
           v-bind:class="{error: isError}"
-          v-model="newName" 
+          v-model="name" 
         >
       </label>
-      <label v-if="addingTask">Описание
+      <label>Описание
         <input type="text" class="modal-content__input"
           v-model="desc" 
         >
@@ -15,7 +15,7 @@
 
       <div class="modal-content-block">
         <input type="button" class="modal-content-block__btn save"
-          value="сохранить" @click="addingBoard"
+          value="сохранить" @click="addingTask"
         >
         <input type="button" class="modal-content-block__btn cancel"
           value="отменить" @click="closeModal"
@@ -30,7 +30,7 @@ export default {
   name: 'Modal',
   data () {
     return {
-      newName: '',
+      name: '',
       desc: '',
       isError: false,
     }
@@ -40,9 +40,9 @@ export default {
       this.isError = false;
       this.$emit('closeModal')
     },
-    addingBoard() {
-      if (this.newName != '') {
-        this.$emit('addingBoard', this.newName)
+    addingTask() {
+      if (this.name != '') {
+        this.$emit('addingTask', {name: this.name, desc:this.desc})
         this.isError = false;
       } else {
         this.isError = true;

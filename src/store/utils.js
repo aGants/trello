@@ -5,3 +5,7 @@ export function saveState(store) {
     }
   )
 }
+
+export function uuid() {
+  return (Math.random()*1e8).toString(16)
+}

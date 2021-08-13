@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
 import defaultBoard from './default-board'
-import { saveState } from './utils'
+import { saveState, uuid } from './utils'
 
 const board = JSON.parse(localStorage.getItem('board')) || defaultBoard
 
@@ -10,6 +10,13 @@ export default createStore({
     board
   },
   mutations: {
+    ADD_TASK (state, { tasks, name, desc }) {
+      tasks.push({
+        id: uuid(),
+        name,
+        desc,
+      })
+    }
   },
   actions: {
   },

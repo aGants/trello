@@ -1,5 +1,5 @@
 <template>
-  <ul @drop="onDrop($event, 1)" >
+  <ul @drop="onDrop($event, 1)" class="board-list">
     <li 
       v-for="task in tasks" 
       :key="task.id"
@@ -11,39 +11,41 @@
       <p class="board-list-task__desc">{{ task.desc }}</p> 
     </li>
   </ul>
+  <input type="button"
+    class="board-list__btn"
+    value="+ добавить задание"
+    @click="modal = !modal"
+  >
+  <Modal v-if="modal" @closeModal="closePopupModal" 
+    @addingTask="addTask"
+  />
 </template>
 
 <script>
-// import { ref } from 'vue'
+import Modal from './Modal.vue'
 
 export default {
   name: 'TasksList',
+  components: { Modal },
   props: {
     boardId: String,
     tasks: Array
   },
-  // setup() {
-  //   function onDragStart(e, item) {}
-  //   function onDrop(e, boardId) {}
-
-  //   return {
-  //     items, categories,
-  //     onDragStart,
-  //     onDrop
-  //   }
-  // },
-  data() {
+  data () {
     return {
-      title: ''
+      modal: false,
     }
   },
   methods: {
-    add() {
-
+    addTask(data) {
+      console.log(data)
+      let tasks = this.tasks;
+      this.$store.commit('ADD_TASK', { tasks, name: data.name, desc: data.desc })
+      this.modal = false;
     },
-    edit() {
-
-    }
+    closePopupModal () {
+      this.modal = false;
+    },
   }
 }
 </script>
@@ -53,6 +55,9 @@ export default {
   list-style-type: none;
   margin: 0;
   padding: 0;
+  &__btn {
+    cursor: pointer;
+  }
   &-task {
     margin: 20px 0;
     padding: 10px;

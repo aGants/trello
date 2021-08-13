@@ -2,47 +2,41 @@
   <h1>Trello</h1>
   <div class="list">
     <Board 
-      v-for="board in board.list" :key="board.name" 
+      v-for="board in board.list" :key="board.id" 
       class="board" :board="board" 
-    />
+    >
+    text
+    </Board>
     <div class="board">
-      <input type="button" class="board-list-task" 
-        value="Добавить доску"
-        @click="modal = !modal"
+      <input type="text" class="board-list__input" 
+        placeholder="+ добавить доску"
+        @keyup.enter="addBoard"
       />
     </div>
   </div>
-  <Modal v-if="modal" @closeModal="closePopupModal" 
-    @addingBoard="addBoard"
-  />
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import Board from './components/Board.vue'
-import Modal from './components/Modal.vue'
 
 export default {
   name: 'App',
   components: {
-    Board, Modal
+    Board
   },
   props: {},
   data() {
     return {
       modal: false,
-      addingTask: false,
       newName: ''
     }
   }, 
   computed: mapState(['board']),
   methods: {
-    closePopupModal () {
-      this.modal = false;
-    },
     addBoard (name) {
-      this.boardList.push({name: name, tasks: []})
-      this.modal = false;
+      console.log(name)
+      // this.boardList.push({name: name, tasks: []})
     }
   }
 }
@@ -61,6 +55,12 @@ export default {
   gap: 20px;
   @media (max-width: $screen-md) {
     flex-direction: column;
+  }
+}
+
+.board-list {
+  &__input {
+    padding: 5px;
   }
 }
 

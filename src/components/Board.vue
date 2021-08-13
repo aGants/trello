@@ -18,11 +18,6 @@ export default {
   },
   props: {
     board: {},
-  },
-  data() {
-    return {
-      
-    }
   }
 }
 </script>
