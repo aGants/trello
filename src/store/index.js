@@ -10,6 +10,12 @@ export default createStore({
     board
   },
   mutations: {
+    ADD_BOARD (state, { name }) {
+      state.board.list.push({
+        name,
+        tasks: []
+      })
+    },
     ADD_TASK (state, { tasks, name, desc }) {
       tasks.push({
         id: uuid(),

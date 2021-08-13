@@ -15,6 +15,7 @@
     <div class="board">
       <input type="text" class="board-list__input" 
         placeholder="+ добавить доску"
+        v-model="newBoardName"
         @keyup.enter="addBoard"
       />
     </div>
@@ -34,11 +35,17 @@ export default {
   data() {
     return {
       modal: false,
-      newName: ''
+      newBoardName: ''
     }
   }, 
   computed: mapState(['board']),
   methods: {
+    addBoard(){
+      this.$store.commit('ADD_BOARD', {
+        name: this.newBoardName
+      })
+      this.newBoardName = ''
+    },
     onDragStart(data){
       data.e.dataTransfer.setData('task-index', data.taskIndex)
       data.e.dataTransfer.setData('from-board-index', data.fromBoardIndex)
